@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.12
+-- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Nov 19, 2014 at 01:04 PM
--- Server version: 5.5.36
--- PHP Version: 5.4.27
+-- Host: 127.0.0.1
+-- Generation Time: Oct 28, 2015 at 05:11 AM
+-- Server version: 5.5.40-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -89,6 +89,31 @@ CREATE TABLE IF NOT EXISTS `tbl_option_type` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_status_manager`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_status_manager` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status` varchar(10) NOT NULL DEFAULT '0',
+  `text` varchar(20) NOT NULL DEFAULT 'None',
+  `color` varchar(10) DEFAULT 'default',
+  `description` varchar(50) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `tbl_status_manager`
+--
+
+INSERT INTO `tbl_status_manager` (`id`, `status`, `text`, `color`, `description`, `created`, `modified`) VALUES
+(1, '0', 'Disable', 'default', '0 status', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, '1', 'Active', 'success', 'Active', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 

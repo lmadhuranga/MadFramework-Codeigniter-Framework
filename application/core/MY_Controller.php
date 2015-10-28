@@ -54,7 +54,7 @@ class MY_Controller extends CI_Controller
         // asign the value to globel variable
         foreach ($return as $key => $variable)
         {
-            $this->data[$variable['variable_name']]=$variable['option_value']; 
+            $this->data[$variable->variable_name]=$variable->option_value; 
         }
     }
     /*---------------End of get_option_table_values()---------------*/

@@ -124,40 +124,6 @@ function get_time_12($date_with_time)
  
 
 
- 
-
-/**
- * @author                          Madhuranga Senadheera
- * Purpose of the function          Set status per label
- * @return_type                     return_type
- */
-function status_manager($status)
-{
-    if (is_null($status)||empty($status)) {
-        return '<span class="label label-default">none</span class="label">';
-    } $status_array = array(
-                            'A' => 'Available'
-                            );
-    switch ($status)
-    { 
-
-        case 'A':
-            return '<span class="label label-success">'.$status_array[$status].'</span class="label">';
-            break;
-
-        default:
-            return '<span class="label label-success">'.$status_array[$status].'</span class="label">';
-            break;
-        /*
-         <span class="label label-default">Default</span>
-        <span class="label label-primary">Primary</span>
-        <span class="label label-success">Success</span>
-        <span class="label label-info">Info</span>
-        <span class="label label-warning">Warning</span>
-        <span class="label label-danger">Danger</span>*/
-    }
-}
-/*---------------- ---------End of status_manager_()---------------------------*/
 
 
 
@@ -204,3 +170,143 @@ function get_month_name($id)
     
 }*/
 /*---------------- ---------End of send_email()---------------------------*/
+
+
+
+
+ 
+
+/**
+ * @author                          Madhuranga Senadheera
+ * Purpose of the function          Set status per label
+ * @return_type                     return_type
+ */
+function status_manager($status)
+{
+ 
+    $CI = get_instance();
+    $CI->load->model('status_manager_model');
+    $query = $CI->status_manager_model->get_by(array('status'=>$status), "*", $id = NULL, $single = TRUE);
+    return "<span class='label label-".$query->color."'>".$query->text."</span>";
+    var_dump($query); exit('codeigniter_helper_file ln:'.__LINE__);
+
+}
+/*---------------- ---------End of status_manager_()---------------------------*/
+
+
+
+/**
+ * @author                          Madhuranga Senadheera
+ * Purpose of the function          Description
+ * @variable                         : type
+ * @return                             return_type 
+ */
+function link_staff($id,$logged_user_type,$link=TRUE)
+{
+    if (is_null($id)) {
+        return false;
+    }
+    else
+    {
+        $CI = get_instance();
+        $CI->load->model('staff_model');
+        $return = $CI->staff_model->get('*',$id,TRUE);
+        if (sizeof($return)==0) {
+            return "Not found";
+        }
+        // return "<a Title='".$return->firstname." ".$return->lastname."' href='".site_url($logged_user_type."/staff/view/".$return->id)."'>".$return->firstname."</a>";
+        // create a link 
+        if ($link) {
+            return "<a Title='".$return->firstname." ".$return->lastname."' href='".site_url($logged_user_type."/staff/view/".$return->id)."'>".$return->firstname."</a>";
+        }
+        return "<label >".$return->firstname." ".$return->lastname."</label>";
+        
+    }
+}
+/*---------------End of link_course($id)---------------*/
+
+
+
+
+/**
+ * @author                          Madhuranga Senadheera
+ * Purpose of the function          Description
+ * @variable                         : type
+ * @return                             return_type 
+ */
+function btn_view($id,$logged_user_type,$title,$controller_name)
+{
+    return "<a Title='View ".$title."' href='".site_url($logged_user_type."/".$controller_name."/view/".$id)."'>View</a>";
+}
+/*---------------End of btn_view($id)---------------*/
+
+
+/**
+ * @author                          Madhuranga Senadheera
+ * Purpose of the function          Description
+ * @variable                         : type
+ * @return                             return_type 
+ */
+function btn_edit($id,$logged_user_type,$title,$controller_name)
+{
+    return "<a Title='Edit ".$title."' href='".site_url($logged_user_type."/".$controller_name."/edit/".$id)."'>Edit</a>";
+}
+/*---------------End of btn_view($id)---------------*/
+
+
+/**
+ * @author                          Madhuranga Senadheera
+ * Purpose of the function          Description
+ * @variable                         : type
+ * @return                             return_type 
+ */
+function btn_delete($id,$logged_user_type,$title,$controller_name)
+{
+    return "<a Title='Delete ".$title."' href='".site_url($logged_user_type."/".$controller_name."/delete/".$id)."'>Delete</a>";
+}
+/*---------------End of btn_view($id)---------------*/
+
+
+
+
+
+/**
+ * @author                          Madhuranga Senadheera
+ * Purpose of the function          Description
+ * @variable                         : type
+ * @return                             return_type 
+ */
+function enable_dropdown($msg,$selected_value=NULL,$option="")
+{
+    $items = array(''=>'Please Select '.$msg, '1'=>'Enable','0'=>'Disable');
+    // check selected value
+    if (!is_null($selected_value)) {
+        return form_dropdown('enable', $items,$selected_value,$option);
+    }
+    return form_dropdown('enable', $items);
+}
+/*---------------End of enable_dropdown($selected_value=NULL,)---------------*/
+
+
+
+/**
+ * @author                          Madhuranga Senadheera
+ * Purpose of the function          Description
+ * @variable                         : type
+ * @return                             return_type 
+ */
+function format_price($value=NULL,$currency_type)
+{ 
+    if (empty($value)) {
+        $value= 0; 
+    }elseif (is_null($value)) {
+        $value= 0;
+    }
+    else{
+
+        $value =number_format (  $value ,  0 ,  "." ,  "," );
+    }
+
+    return  '<p style="text-align:right;">' .$currency_type.":".$value.'.00 </p>';
+}
+/*---------------End of format_lkr($value)---------------*/
